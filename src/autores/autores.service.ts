@@ -1,7 +1,7 @@
 
 import {Injectable} from '@nestjs/common';
  
-import {Model, isValidObjectId} from 'mongoose';
+import {Model} from 'mongoose';
 import {InjectModel} from '@nestjs/mongoose';
  
 
@@ -49,8 +49,7 @@ constructor(@InjectModel('Autor') private readonly iAutor: Model<Autor>) {}
     }
 
     async updateAutor(autorId: string, autorDto: AutorDto) : Promise<any> {
-
-        
+ 
         const updatedAutor = await this.iAutor.findByIdAndUpdate(autorId, autorDto, {new :true});
         return updatedAutor;
     }
