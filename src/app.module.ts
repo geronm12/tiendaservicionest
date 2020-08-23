@@ -7,7 +7,8 @@ import { CarritoModule } from './carrito/carrito.module';
 @Module({
   imports: [AutoresModule, ProductoModule, CarritoModule,
   MongooseModule.forRoot("mongodb://localhost:27017/tiendaServicio", {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false
   })
   ],
   controllers: [],

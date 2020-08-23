@@ -1,13 +1,17 @@
 import {ApiProperty} from '@nestjs/swagger';
+import {IsNotEmpty} from 'class-validator';
 
 export class AutorDto {
     
     @ApiProperty()
-   public nombre: string;
+    @IsNotEmpty()
+    public nombre: string;
     
     @ApiProperty()
+    @IsNotEmpty()
    public apellido: string;
 
+    @IsNotEmpty()
     @ApiProperty()
    public fechaNacimiento: Date;
 

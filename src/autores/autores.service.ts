@@ -1,12 +1,13 @@
 
 import {Injectable} from '@nestjs/common';
-
-import {Model} from 'mongoose';
+ 
+import {Model, isValidObjectId} from 'mongoose';
 import {InjectModel} from '@nestjs/mongoose';
-
+ 
 
 import {AutorDto} from './dto/autores.dto';
 import {Autor} from './interface/autor.interface';
+import { error } from 'console';
 
 @Injectable()
 export class AutoresService {
@@ -14,12 +15,32 @@ export class AutoresService {
 constructor(@InjectModel('Autor') private readonly iAutor: Model<Autor>) {}
 
     async getAutores(): Promise<Autor[]>{
-        return await this.iAutor.find();
+
+        const autores = await this.iAutor.find();
+
+        if(!autores){
+            throw new error("Ocurrió un error al buscar los autores");
+        }
+
+        return autores;
+
     }
 
     async getAutor(autorId: string): Promise<Autor> {
-        return await this.iAutor.findById(autorId);
+        
+           const autor = await this.iAutor.findById(autorId);
+ 
+
+          if(!autor){
+            return null;
+          } 
+
+          return autor;
+
     }
+ 
+
+     
 
     async createAutor(autorDto: AutorDto): Promise<Autor> {
         const newAutor = new this.iAutor(autorDto);
@@ -28,7 +49,9 @@ constructor(@InjectModel('Autor') private readonly iAutor: Model<Autor>) {}
     }
 
     async updateAutor(autorId: string, autorDto: AutorDto) : Promise<any> {
-        const updatedAutor = await this.iAutor.findByIdAndUpdate(autorId, autorDto, {new: true});
+
+        
+        const updatedAutor = await this.iAutor.findByIdAndUpdate(autorId, autorDto, {new :true});
         return updatedAutor;
     }
 
